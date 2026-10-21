@@ -34,6 +34,12 @@ Evaluated over 500 to 1000 episodes with no exploration:
 
 The map is small and deterministic, so a trained agent always finds the shortest path.
 
+## Learning curve
+
+Reward of each training episode, with a moving average of 50 episodes. The robot makes many mistakes at first, then settles on the shortest path after about 500 episodes.
+
+![Learning curve](docs/learning_curve.png)
+
 ## Installation
 
 ```
