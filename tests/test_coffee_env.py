@@ -91,3 +91,27 @@ def test_default_map_has_a_path_to_the_coffee():
                 seen.add((nr, nc))
                 stack.append((nr, nc))
     assert reached
+def test_no_slip_by_default():
+    env = CoffeeEnv(["S . C"])
+    env.reset()
+    state, _, _ = env.step(RIGHT)
+    assert state == 1
+
+
+def test_always_slipping_still_gives_valid_states():
+    env = CoffeeEnv(slip_prob=1.0, seed=0)
+    env.reset()
+    for _ in range(50):
+        state, _, done = env.step(RIGHT)
+        assert 0 <= state < env.n_states
+        if done:
+            env.reset()
+
+
+def test_slip_is_repeatable_with_the_same_seed():
+    def run():
+        env = CoffeeEnv(slip_prob=0.5, seed=3)
+        env.reset()
+        return [env.step(RIGHT)[0] for _ in range(10)]
+
+    assert run() == run()
