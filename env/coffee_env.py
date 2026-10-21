@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 # Cell types 
 EMPTY, WALL, WATER, COFFEE, OUTLET = 0, 1, 2, 3, 4
@@ -28,7 +29,7 @@ class CoffeeEnv:
     REWARD_STEP = -0.1
     REWARD_WALL = -0.5
 
-    def __init__(self, layout=None, max_steps=100):
+    def __init__(self, layout=None, max_steps=100, slip_prob=0.0, seed=None):
         rows = [line.split() for line in (layout or LAYOUT)]
         self.rows = len(rows)
         self.cols = max(len(row) for row in rows)
@@ -48,6 +49,8 @@ class CoffeeEnv:
         self.max_steps = max_steps
         self.n_actions = 4
         self.n_states = self.rows * self.cols
+        self.slip_prob = slip_prob
+        self.rng = random.Random(seed)
         self.reset()
     def reset(self):
         self.pos = self.start
@@ -62,6 +65,8 @@ class CoffeeEnv:
             raise ValueError(f"Invalid action: {action}")
 
         self.steps += 1
+        if self.rng.random() < self.slip_prob:
+            action = self.rng.choice(list(ACTION_DELTAS))
         dr, dc = ACTION_DELTAS[action]
         r, c = self.pos[0] + dr, self.pos[1] + dc
 
