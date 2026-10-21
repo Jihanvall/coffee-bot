@@ -3,4 +3,4 @@ __pycache__/
 rl_env/
 .venv/
 .pytest_cache/
-learning_curve.png
+/learning_curve.png
