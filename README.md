@@ -32,7 +32,19 @@ Evaluated over 500 to 1000 episodes with no exploration:
 | Random | 5.5% | 82.2% | -22.7 |
 | Q-learning (2000 training episodes) | 100% | 0% | +8.9 |
 
-The map is small and deterministic, so a trained agent always finds the shortest path.
+By default the map is small and deterministic, so a trained agent always finds the shortest path.
+
+## Slippery floor
+
+The environment accepts a `slip_prob` option. With that probability, the robot moves in a random direction instead of the chosen one. A `seed` makes the slips repeatable.
+
+```python
+from env.coffee_env import CoffeeEnv
+
+env = CoffeeEnv(slip_prob=0.2, seed=0)
+```
+
+With `slip_prob=0.2` the trained agent still reaches the coffee every time, but its average reward drops from about 8.9 to about 8.0, because slips waste steps.
 
 ## Learning curve
 
